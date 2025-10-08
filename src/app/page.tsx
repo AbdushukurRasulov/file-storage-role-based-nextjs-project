@@ -35,7 +35,7 @@ export default function Home() {
         {files?.map((file) => (
           <div key={file._id} className="flex items-center gap-2">
             <p>
-              {file.name} - {file._id}
+              {file.name} - {file._id} - {file.orgId}
             </p>
             <Button
               onClick={() => {
