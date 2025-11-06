@@ -75,7 +75,7 @@ export function UploadFileButton() {
       }}>
       <form>
         <DialogTrigger asChild>
-          <Button>Upload File</Button>
+          <Button size="lg">Upload File</Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
