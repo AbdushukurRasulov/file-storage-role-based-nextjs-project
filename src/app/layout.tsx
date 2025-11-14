@@ -31,7 +31,7 @@ export default function RootLayout({
         <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} dynamic>
           <ConvexClientProvider>
             <AppHeader />
-            <main className="container mx-auto py-5">{children}</main>
+            <>{children}</>
           </ConvexClientProvider>
         </ClerkProvider>
       </body>

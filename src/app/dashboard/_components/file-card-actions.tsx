@@ -15,11 +15,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
-import { MoreVertical, TrashIcon } from "lucide-react";
+import { MoreVertical, StarIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Doc } from "../../convex/_generated/dataModel";
+import { api } from "../../../../convex/_generated/api";
+import { Doc } from "../../../../convex/_generated/dataModel";
 
 const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -52,6 +52,11 @@ const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuLabel onClick={() => {}} className="flex items-center gap-1  cursor-pointer">
+            <StarIcon className="size-4 shrink-0" />
+            Favorite
+          </DropdownMenuLabel>
+          <hr />
           <DropdownMenuLabel
             onClick={() => setIsConfirmOpen(true)}
             className="flex items-center gap-1 text-red-600 cursor-pointer">

@@ -1,10 +1,10 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Doc, Id } from "../../convex/_generated/dataModel";
-import { Button } from "./ui/button";
 import FileCardActions from "./file-card-actions";
 import { FileTextIcon, GanttChartIcon, ImageIcon } from "lucide-react";
 import { ReactNode } from "react";
 import Image from "next/image";
+import { Doc, Id } from "../../../../convex/_generated/dataModel";
+import { Button } from "@/components/ui/button";
 
 function getFileUrl(fileId: Id<"_storage">): string {
   const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL;
@@ -27,13 +27,15 @@ const FileCard = ({ file }: { file: Doc<"files"> }) => {
         <CardTitle className="flex items-center gap-2">
           <div className="size-6">{typeIcons[file.type]}</div>
           <span>{file.name}</span>
-          <div className="absolute top-0 right-2">
-            <FileCardActions file={file} />
-          </div>
         </CardTitle>
+        <div className="absolute top-0 right-2">
+          <FileCardActions file={file} />
+        </div>
       </CardHeader>
-      <CardContent className="h-20 flex justify-center items-center">
-        {file.type === "image" && <Image alt={file.name} width="200" height="100" src={getFileUrl(file.fileId)} />}
+      <CardContent className="relative h-30 flex justify-center items-center">
+        {file.type === "image" && (
+          <Image alt={file.name} fill className="object-contain" src={getFileUrl(file.fileId)} />
+        )}
         {file.type === "csv" && <GanttChartIcon className="size-20" />}
         {file.type === "pdf" && <FileTextIcon className="size-20" />}
       </CardContent>
