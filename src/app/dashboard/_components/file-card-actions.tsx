@@ -23,7 +23,10 @@ import { Doc } from "../../../../convex/_generated/dataModel";
 
 const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   const deleteFile = useMutation(api.files.deleteFile);
+  const toggleFavorite = useMutation(api.files.toggleFavorite);
+
   return (
     <>
       <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
@@ -52,7 +55,9 @@ const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel onClick={() => {}} className="flex items-center gap-1  cursor-pointer">
+          <DropdownMenuLabel
+            onClick={() => toggleFavorite({ fileId: file._id })}
+            className="flex items-center gap-1  cursor-pointer">
             <StarIcon className="size-4 shrink-0" />
             Favorite
           </DropdownMenuLabel>
