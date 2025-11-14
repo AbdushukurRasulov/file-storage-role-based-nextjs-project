@@ -22,6 +22,7 @@ import { api } from "../../convex/_generated/api";
 import { useOrgId } from "@/hooks/useOrgId";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { Doc } from "../../convex/_generated/dataModel";
 
 const formSchema = z.object({
   title: z.string().min(1).max(200),
@@ -46,6 +47,8 @@ export function UploadFileButton() {
   const fileRef = form.register("file");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    // if (!orgId) return;
+
     const postUrl = await generateUploadUrl();
 
     const result = await fetch(postUrl, {
@@ -55,11 +58,18 @@ export function UploadFileButton() {
     });
     const { storageId } = await result.json();
 
+    const types = {
+      "image/png": "image",
+      "application/pdf": "pdf",
+      "text/csv": "csv"
+    } as Record<string, Doc<"files">["type"]>;
+
     if (!orgId) return;
     createFile({
       name: values.title,
       fileId: storageId,
-      orgId
+      orgId,
+      type: types[values.file[0].type]
     });
 
     form.reset();
