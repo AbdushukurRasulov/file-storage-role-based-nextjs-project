@@ -2,6 +2,7 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
@@ -21,7 +22,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Doc } from "../../../../convex/_generated/dataModel";
 
-const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
+const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorited: boolean }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const deleteFile = useMutation(api.files.deleteFile);
@@ -55,19 +56,28 @@ const FileCardActions = ({ file }: { file: Doc<"files"> }) => {
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel
+          <DropdownMenuItem
             onClick={() => toggleFavorite({ fileId: file._id })}
             className="flex items-center gap-1  cursor-pointer">
-            <StarIcon className="size-4 shrink-0" />
-            Favorite
-          </DropdownMenuLabel>
+            {!isFavorited ? (
+              <div className="flex items-center gap-2">
+                <StarIcon className="size-4 shrink-0 " />
+                Favorite
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <StarIcon className="size-4 shrink-0 text-yellow-500 fill-yellow-500" />
+                Unfavorite
+              </div>
+            )}
+          </DropdownMenuItem>
           <hr />
-          <DropdownMenuLabel
+          <DropdownMenuItem
             onClick={() => setIsConfirmOpen(true)}
             className="flex items-center gap-1 text-red-600 cursor-pointer">
-            <TrashIcon className="size-4 shrink-0" />
+            <TrashIcon className="size-4 shrink-0 text-red-600" />
             Delete
-          </DropdownMenuLabel>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -10,7 +10,7 @@ const FavoritesPage = () => {
   // });
   return (
     <>
-      <FileBrowser title="Your favorites" favorites />
+      <FileBrowser title="Your favorites" favoritesOnly />
     </>
   );
 };

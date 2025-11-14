@@ -11,12 +11,21 @@ import SearchBar from "./search-bar";
 import Placeholder from "./placeholder";
 import { UploadFileButton } from "@/app/dashboard/_components/upload-file-button";
 
-const FileBrowser = ({ title, favorites }: { title: string; favorites?: boolean }) => {
+const FileBrowser = ({ title, favoritesOnly }: { title: string; favoritesOnly?: boolean }) => {
   const orgId = useOrgId();
 
   const [query, setQuery] = useState("");
 
-  const files = useQuery(api.files.getFiles, orgId ? { orgId, query, favorites } : "skip");
+  const favorites = useQuery(
+    api.files.getAllFavorites,
+    orgId
+      ? {
+          orgId
+        }
+      : "skip"
+  );
+
+  const files = useQuery(api.files.getFiles, orgId ? { orgId, query, favorites: favoritesOnly } : "skip");
 
   const isLoading = files === undefined;
 
@@ -46,7 +55,7 @@ const FileBrowser = ({ title, favorites }: { title: string; favorites?: boolean 
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 py-10">
               {files?.map((file) => (
-                <FileCard key={file._id} file={file}></FileCard>
+                <FileCard favorites={favorites ?? []} key={file._id} file={file}></FileCard>
               ))}
             </div>
           )}
