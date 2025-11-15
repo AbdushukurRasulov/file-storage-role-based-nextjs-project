@@ -3,15 +3,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "../../../components/ui/input";
-import { Button } from "../../../components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Loader2, Search } from "lucide-react";
 
 const formSchema = z.object({
   query: z.string().min(0).max(200)
 });
 
-const SearchBar = ({ query, setQuery }: { query: string; setQuery: React.Dispatch<React.SetStateAction<string>> }) => {
+const SearchBar = ({ setQuery }: { setQuery: React.Dispatch<React.SetStateAction<string>> }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

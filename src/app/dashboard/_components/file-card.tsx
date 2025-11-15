@@ -3,7 +3,7 @@ import FileCardActions, { getFileUrl } from "./file-card-actions";
 import { FileTextIcon, GanttChartIcon, ImageIcon } from "lucide-react";
 import { ReactNode } from "react";
 import Image from "next/image";
-import { Doc } from "../../../../convex/_generated/dataModel";
+import { Doc } from "@convex/_generated/dataModel";
 import FileUserInfo from "./file-user-info";
 
 const FileCard = ({ file }: { file: Doc<"files"> & { isFavorited: boolean } }) => {

@@ -1,11 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Doc, Id } from "../../../../../convex/_generated/dataModel";
+import { Doc, Id } from "@convex/_generated/dataModel";
+import { api } from "@convex/_generated/api";
+import { useQuery } from "convex/react";
 import { formatRelative } from "date-fns";
 import UserAvatar from "../user-avatar";
-import { useQuery } from "convex/react";
-import { api } from "../../../../../convex/_generated/api";
 import FileCardActions from "../file-card-actions";
 
 function UserCell({ userId }: { userId: Id<"users"> }) {

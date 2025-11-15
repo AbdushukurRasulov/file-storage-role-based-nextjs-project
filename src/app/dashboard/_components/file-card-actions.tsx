@@ -3,7 +3,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {
@@ -19,10 +18,9 @@ import {
 import { DownloadIcon, MoreVertical, StarIcon, TrashIcon, UndoIcon } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
-import { Doc, Id } from "../../../../convex/_generated/dataModel";
+import { api } from "@convex/_generated/api";
+import { Doc, Id } from "@convex/_generated/dataModel";
 import { Protect } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 
 export function getFileUrl(fileId: Id<"_storage">): string {
   const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL;
