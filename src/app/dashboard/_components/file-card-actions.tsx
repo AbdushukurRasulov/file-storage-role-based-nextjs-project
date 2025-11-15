@@ -32,7 +32,7 @@ export function getFileUrl(fileId: Id<"_storage">): string {
   return getImageUrl.href;
 }
 
-const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorited: boolean }) => {
+const FileCardActions = ({ file }: { file: Doc<"files"> & { isFavorited: boolean } }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const deleteFile = useMutation(api.files.deleteFile);
@@ -67,21 +67,19 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <Button
-              className="w-full flex items-center gap-2"
-              onClick={() => {
-                window.open(getFileUrl(file.fileId), "_blank");
-              }}>
-              <DownloadIcon className="size-4 shrink-0" />
-              Download
-            </Button>
+          <DropdownMenuItem
+            onClick={() => {
+              window.open(getFileUrl(file.fileId), "_blank");
+            }}
+            className="flex items-center gap-1 cursor-pointer">
+            <DownloadIcon className="size-4 shrink-0" />
+            Download
           </DropdownMenuItem>
           <hr />
           <DropdownMenuItem
             onClick={() => toggleFavorite({ fileId: file._id })}
             className="flex items-center gap-1 cursor-pointer">
-            {!isFavorited ? (
+            {!file.isFavorited ? (
               <div className="flex items-center gap-2">
                 <StarIcon className="size-4 shrink-0" />
                 Favorite
@@ -113,7 +111,7 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-red-600">
-                  <TrashIcon className="size-4 shrink-0 " />
+                  <TrashIcon className="size-4 shrink-0 text-current" />
                   Delete
                 </div>
               )}

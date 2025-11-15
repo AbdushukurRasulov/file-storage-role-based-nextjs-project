@@ -3,18 +3,15 @@ import FileCardActions, { getFileUrl } from "./file-card-actions";
 import { FileTextIcon, GanttChartIcon, ImageIcon } from "lucide-react";
 import { ReactNode } from "react";
 import Image from "next/image";
-import { Doc, Id } from "../../../../convex/_generated/dataModel";
-import { Button } from "@/components/ui/button";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import FileUserInfo from "./file-user-info";
 
-const FileCard = ({ file, favorites }: { file: Doc<"files">; favorites: Doc<"favorites">[] }) => {
+const FileCard = ({ file }: { file: Doc<"files"> & { isFavorited: boolean } }) => {
   const typeIcons = {
     image: <ImageIcon className="size-full" />,
     pdf: <FileTextIcon className="size-full" />,
     csv: <GanttChartIcon className="size-full" />
   } as Record<Doc<"files">["type"], ReactNode>;
-
-  const isFavorited = favorites.some((favorite) => favorite.fileId === file._id);
 
   return (
     <Card>
@@ -24,7 +21,7 @@ const FileCard = ({ file, favorites }: { file: Doc<"files">; favorites: Doc<"fav
           <span>{file.name}</span>
         </CardTitle>
         <div className="absolute top-0 right-2">
-          <FileCardActions file={file} isFavorited={isFavorited} />
+          <FileCardActions file={file} />
         </div>
       </CardHeader>
       <CardContent className="relative h-30 flex justify-center items-center">

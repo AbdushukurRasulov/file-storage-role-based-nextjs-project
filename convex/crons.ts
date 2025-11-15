@@ -3,10 +3,6 @@ import { internal } from "./_generated/api";
 
 const crons = cronJobs();
 
-crons.interval(
-  "Delete any old files marked for deletion",
-  { minutes: 1 }, // every minute
-  internal.files.deleteAllFiles
-);
+crons.interval("Delete any old files marked for deletion", { minutes: 100 }, internal.files.deleteAllFiles);
 
 export default crons;
