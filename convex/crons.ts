@@ -8,3 +8,5 @@ crons.interval(
   { minutes: 1 }, // every minute
   internal.files.deleteAllFiles
 );
+
+export default crons;

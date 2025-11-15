@@ -1,18 +1,11 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import FileCardActions from "./file-card-actions";
+import FileCardActions, { getFileUrl } from "./file-card-actions";
 import { FileTextIcon, GanttChartIcon, ImageIcon } from "lucide-react";
 import { ReactNode } from "react";
 import Image from "next/image";
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-
-function getFileUrl(fileId: Id<"_storage">): string {
-  const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL;
-  const getImageUrl = new URL(`${convexSiteUrl}/getImage`);
-  getImageUrl.searchParams.set("storageId", fileId);
-
-  return getImageUrl.href;
-}
+import FileUserInfo from "./file-user-info";
 
 const FileCard = ({ file, favorites }: { file: Doc<"files">; favorites: Doc<"favorites">[] }) => {
   const typeIcons = {
@@ -41,14 +34,8 @@ const FileCard = ({ file, favorites }: { file: Doc<"files">; favorites: Doc<"fav
         {file.type === "csv" && <GanttChartIcon className="size-20" />}
         {file.type === "pdf" && <FileTextIcon className="size-20" />}
       </CardContent>
-      <CardFooter className="">
-        <Button
-          className="w-full"
-          onClick={() => {
-            window.open(getFileUrl(file.fileId), "_blank");
-          }}>
-          Download
-        </Button>
+      <CardFooter className="flex items-center justify-between text-xs">
+        <FileUserInfo file={file} />
       </CardFooter>
     </Card>
   );

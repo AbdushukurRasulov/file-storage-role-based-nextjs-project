@@ -16,12 +16,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
-import { MoreVertical, StarIcon, TrashIcon, UndoIcon } from "lucide-react";
+import { DownloadIcon, MoreVertical, StarIcon, TrashIcon, UndoIcon } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
-import { Doc } from "../../../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { Protect } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+
+export function getFileUrl(fileId: Id<"_storage">): string {
+  const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL;
+  const getImageUrl = new URL(`${convexSiteUrl}/getImage`);
+  getImageUrl.searchParams.set("storageId", fileId);
+
+  return getImageUrl.href;
+}
 
 const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorited: boolean }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -58,12 +67,23 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
           <MoreVertical />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuItem>
+            <Button
+              className="w-full flex items-center gap-2"
+              onClick={() => {
+                window.open(getFileUrl(file.fileId), "_blank");
+              }}>
+              <DownloadIcon className="size-4 shrink-0" />
+              Download
+            </Button>
+          </DropdownMenuItem>
+          <hr />
           <DropdownMenuItem
             onClick={() => toggleFavorite({ fileId: file._id })}
-            className="flex items-center gap-1  cursor-pointer">
+            className="flex items-center gap-1 cursor-pointer">
             {!isFavorited ? (
               <div className="flex items-center gap-2">
-                <StarIcon className="size-4 shrink-0 " />
+                <StarIcon className="size-4 shrink-0" />
                 Favorite
               </div>
             ) : (
