@@ -11,7 +11,15 @@ import SearchBar from "./search-bar";
 import Placeholder from "./placeholder";
 import { UploadFileButton } from "@/app/dashboard/_components/upload-file-button";
 
-const FileBrowser = ({ title, favoritesOnly }: { title: string; favoritesOnly?: boolean }) => {
+const FileBrowser = ({
+  title,
+  favoritesOnly,
+  deletedOnly
+}: {
+  title: string;
+  favoritesOnly?: boolean;
+  deletedOnly?: boolean;
+}) => {
   const orgId = useOrgId();
 
   const [query, setQuery] = useState("");
@@ -25,7 +33,7 @@ const FileBrowser = ({ title, favoritesOnly }: { title: string; favoritesOnly?: 
       : "skip"
   );
 
-  const files = useQuery(api.files.getFiles, orgId ? { orgId, query, favorites: favoritesOnly } : "skip");
+  const files = useQuery(api.files.getFiles, orgId ? { orgId, query, favorites: favoritesOnly, deletedOnly } : "skip");
 
   const isLoading = files === undefined;
 

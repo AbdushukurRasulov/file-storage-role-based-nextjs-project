@@ -2,12 +2,12 @@
 import React from "react";
 import FileBrowser from "../_components/files-browser";
 
-const FavoritesPage = () => {
+const TrashPage = () => {
   return (
     <>
-      <FileBrowser title="Your Favorites" favoritesOnly />
+      <FileBrowser title="Your Trashes" deletedOnly />
     </>
   );
 };
 
-export default FavoritesPage;
+export default TrashPage;

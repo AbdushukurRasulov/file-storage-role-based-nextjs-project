@@ -16,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
-import { MoreVertical, StarIcon, TrashIcon } from "lucide-react";
+import { MoreVertical, StarIcon, TrashIcon, UndoIcon } from "lucide-react";
 import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
@@ -27,6 +27,7 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const deleteFile = useMutation(api.files.deleteFile);
+  const restoreFile = useMutation(api.files.restoreFile);
   const toggleFavorite = useMutation(api.files.toggleFavorite);
 
   return (
@@ -75,10 +76,27 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
           <hr />
           <Protect role="org:admin" fallback={<></>}>
             <DropdownMenuItem
-              onClick={() => setIsConfirmOpen(true)}
-              className="flex items-center gap-1 text-red-600 cursor-pointer">
-              <TrashIcon className="size-4 shrink-0 text-red-600" />
-              Delete
+              onClick={() => {
+                if (file.shouldDelete) {
+                  restoreFile({
+                    fileId: file._id
+                  });
+                } else {
+                  setIsConfirmOpen(true);
+                }
+              }}
+              className="flex items-center gap-1 cursor-pointer">
+              {file.shouldDelete ? (
+                <div className="flex items-center gap-2 text-green-600">
+                  <UndoIcon className="size-4 shrink-0 " />
+                  Restore
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-red-600">
+                  <TrashIcon className="size-4 shrink-0 " />
+                  Delete
+                </div>
+              )}
             </DropdownMenuItem>
           </Protect>
         </DropdownMenuContent>
