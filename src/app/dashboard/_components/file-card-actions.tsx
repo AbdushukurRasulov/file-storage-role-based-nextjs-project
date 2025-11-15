@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DownloadIcon, MoreVertical, StarIcon, TrashIcon, UndoIcon } from "lucide-react";
 import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Doc, Id } from "@convex/_generated/dataModel";
 import { Protect } from "@clerk/nextjs";
+import { check } from "zod";
 
 export function getFileUrl(fileId: Id<"_storage">): string {
   const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_SITE_URL;
@@ -36,6 +37,7 @@ const FileCardActions = ({ file }: { file: Doc<"files"> & { isFavorited: boolean
   const deleteFile = useMutation(api.files.deleteFile);
   const restoreFile = useMutation(api.files.restoreFile);
   const toggleFavorite = useMutation(api.files.toggleFavorite);
+  const me = useQuery(api.users.getMe);
 
   return (
     <>
@@ -90,7 +92,11 @@ const FileCardActions = ({ file }: { file: Doc<"files"> & { isFavorited: boolean
             )}
           </DropdownMenuItem>
           <hr />
-          <Protect role="org:admin" fallback={<></>}>
+          <Protect
+            condition={(check) => {
+              return check({ role: "org:admin" }) || file.userId === me?._id;
+            }}
+            fallback={<></>}>
             <DropdownMenuItem
               onClick={() => {
                 if (file.shouldDelete) {
