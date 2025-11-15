@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Doc } from "../../../../convex/_generated/dataModel";
+import { Protect } from "@clerk/nextjs";
 
 const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorited: boolean }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -72,12 +73,14 @@ const FileCardActions = ({ file, isFavorited }: { file: Doc<"files">; isFavorite
             )}
           </DropdownMenuItem>
           <hr />
-          <DropdownMenuItem
-            onClick={() => setIsConfirmOpen(true)}
-            className="flex items-center gap-1 text-red-600 cursor-pointer">
-            <TrashIcon className="size-4 shrink-0 text-red-600" />
-            Delete
-          </DropdownMenuItem>
+          <Protect role="org:admin" fallback={<></>}>
+            <DropdownMenuItem
+              onClick={() => setIsConfirmOpen(true)}
+              className="flex items-center gap-1 text-red-600 cursor-pointer">
+              <TrashIcon className="size-4 shrink-0 text-red-600" />
+              Delete
+            </DropdownMenuItem>
+          </Protect>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
