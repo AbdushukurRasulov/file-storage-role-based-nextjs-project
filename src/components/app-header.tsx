@@ -3,7 +3,7 @@ import React from "react";
 
 const AppHeader = () => {
   return (
-    <header className="border-b border-gray-200 py-4">
+    <header className="fixed top-0 left-0 w-full border-b border-gray-200 z-50 py-4">
       <div className="container flex items-center justify-between mx-auto">
         <div className="font-bold text-xl">FileDrive</div>
         <div className="flex items-center gap-3">
